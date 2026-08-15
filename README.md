@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,18 +5,19 @@
 <title>Hydraulic Line Sizing &amp; Pressure Drop Calculator</title>
 <style>
   :root{
-    --navy:#1b3a5c; --steel:#2f6690; --lt:#eef3f7; --line:#c8d6e0; --ok:#1e7d34; --warn:#b34700; --bad:#a4161a;
+    --navy:#1b3a5c; --steel:#2f6690; --lt:#eef3f7; --line:#d4dce5; --ok:#1e7d34; --warn:#b34700; --bad:#a4161a;
+    --txt:#000000; --dim:#4a5a6a; --accent:#0066cc; --accent2:#0052a3; --panel:#f8fafb; --panel2:#f0f2f5; --mono:'Courier New',monospace;
   }
   *{box-sizing:border-box;}
-  body{margin:0;background:linear-gradient(180deg,#0a0e12,#0c1116 200px);color:var(--txt);
+  body{margin:0;background:linear-gradient(180deg,#f5f7fa,#eff1f5 200px);color:var(--txt);
        font-family:'Segoe UI',Tahoma,Arial,sans-serif;font-size:14px;padding-bottom:60px;}
   header{padding:18px 26px;border-bottom:1px solid var(--line);background:var(--panel2);
          display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
   header h1{font-size:18px;margin:0;letter-spacing:.3px;font-weight:600;}
   header h1 span{color:var(--accent);font-family:var(--mono);}
   header .sub{color:var(--dim);font-size:12px;margin-top:3px;}
-  .tag{font-family:var(--mono);font-size:11px;color:var(--accent2);border:1px solid #3a2f1c;
-       background:#1c1710;padding:3px 8px;border-radius:3px;}
+  .tag{font-family:var(--mono);font-size:11px;color:#d97706;border:1px solid #fef3c7;
+       background:#fffbeb;padding:3px 8px;border-radius:3px;}
   main{max-width:1280px;margin:0 auto;padding:20px 22px;}
   .grid{display:grid;grid-template-columns:340px 1fr;gap:18px;}
   @media(max-width:980px){.grid{grid-template-columns:1fr;}}
@@ -33,12 +33,12 @@
   .row4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;}
   button{cursor:pointer;border:none;border-radius:5px;font-family:'Segoe UI',sans-serif;font-weight:600;
          font-size:12.5px;padding:8px 14px;}
-  .btn-accent{background:var(--accent);color:#04141f;}
-  .btn-accent:hover{background:#5db6ff;}
+  .btn-accent{background:var(--accent);color:#ffffff;}
+  .btn-accent:hover{background:#0052a3;}
   .btn-ghost{background:transparent;border:1px solid var(--line);color:var(--txt);}
   .btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
-  .btn-danger{background:transparent;border:1px solid #4a2323;color:#ff8a8a;padding:5px 9px;font-size:11px;}
-  .btn-danger:hover{background:#2a1414;}
+  .btn-danger{background:transparent;border:1px solid #f87171;color:#dc2626;padding:5px 9px;font-size:11px;}
+  .btn-danger:hover{background:#fee2e2;}
   .btn-small{padding:5px 9px;font-size:11px;}
   .segment{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:12px;margin-bottom:12px;}
   .segment-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
@@ -51,12 +51,12 @@
   table{width:100%;border-collapse:collapse;font-size:12.5px;}
   th{text-align:left;color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase;
      letter-spacing:.4px;padding:8px 8px;border-bottom:1px solid var(--line);white-space:nowrap;}
-  td{padding:8px 8px;border-bottom:1px solid #1c252c;font-family:var(--mono);white-space:nowrap;}
-  tbody tr:hover{background:#111820;}
+  td{padding:8px 8px;border-bottom:1px solid #e5e7eb;font-family:var(--mono);white-space:nowrap;}
+  tbody tr:hover{background:#f3f4f6;}
   .pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;font-family:'Segoe UI',sans-serif;}
-  .pill-ok{background:#0c2a1c;color:var(--ok);border:1px solid #164a30;}
-  .pill-warn{background:#2c2109;color:var(--warn);border:1px solid #4a3712;}
-  .pill-bad{background:#2c1010;color:var(--bad);border:1px solid #4a1818;}
+  .pill-ok{background:#dcfce7;color:#166534;border:1px solid #bbf7d0;}
+  .pill-warn{background:#fef3c7;color:#92400e;border:1px solid #fcd34d;}
+  .pill-bad{background:#fee2e2;color:#991b1b;border:1px solid #fecaca;}
   .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:4px;}
   .kpi{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:12px;}
   .kpi .val{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--txt);}
@@ -101,7 +101,6 @@
     <h1>Hydraulic Line Sizing <span>// dP · Velocity · Erosion</span></h1>
     <div class="sub">Multi-segment pipeline pressure drop calculator — Darcy-Weisbach + Crane TP-410 K-method</div>
   </div>
-  <div class="tag">OFFLINE TOOL — NO SERVER, NO DATA LEAVES THIS PAGE</div>
 </header>
 
 <main>
@@ -118,8 +117,14 @@
         <option value="gas">Gas / Vapour (compressible, isothermal)</option>
       </select>
 
-      <label>Inlet Pressure — bar(g)</label>
-      <input type="number" id="pIn" value="5.0" step="0.01">
+      <label>Inlet Pressure</label>
+      <div class="row2">
+        <input type="number" id="pIn" value="5.0" step="0.01">
+        <select id="pInUnit">
+          <option value="kgcm2g" selected>kg/cm²(g)</option>
+          <option value="barg">bar(g)</option>
+        </select>
+      </div>
 
       <div class="row2">
         <div><label>Temperature (°C)</label><input type="number" id="temp" value="40"></div>
@@ -409,6 +414,14 @@ function onNpsChange(segId,val){
   renderSegments();
 }
 
+/* ---------------- PRESSURE UNIT HELPER ---------------- */
+const KGCM2_TO_BAR = 0.980665; // 1 kgf/cm2 = 0.980665 bar
+function pInToBarg(){
+  const val = parseFloat(document.getElementById('pIn').value)||0;
+  const unit = document.getElementById('pInUnit').value;
+  return unit==='kgcm2g' ? val*KGCM2_TO_BAR : val;
+}
+
 /* ---------------- CALCULATION ---------------- */
 function nearestFT(nps){
   const keys=Object.keys(fT).map(Number).sort((a,b)=>a-b);
@@ -428,7 +441,7 @@ function calcAll(){
   if(segments.length===0){alert('Add at least one pipe segment first.');return;}
 
   const phase=document.getElementById('phase').value;
-  const pIn_barg=parseFloat(document.getElementById('pIn').value);
+  const pIn_barg=pInToBarg();
   const tempIn=parseFloat(document.getElementById('temp').value);
   const rho0=parseFloat(document.getElementById('rho').value); // density @ global reference P & T
   const muCp=parseFloat(document.getElementById('visc').value);
@@ -585,7 +598,10 @@ function printReport(){
   if(!lastResults){ alert('Add at least one pipe segment and calculate first.'); return; }
 
   const phase=document.getElementById('phase').value==='gas' ? 'Gas / Vapour (compressible)' : 'Liquid (incompressible)';
-  const pIn=document.getElementById('pIn').value;
+  const pInVal=document.getElementById('pIn').value;
+  const pInUnitSel=document.getElementById('pInUnit');
+  const pInUnitLabel=pInUnitSel.options[pInUnitSel.selectedIndex].text;
+  const pInBargEq=pInToBarg().toFixed(3);
   const temp=document.getElementById('temp').value;
   const rho=document.getElementById('rho').value;
   const visc=document.getElementById('visc').value;
@@ -602,7 +618,7 @@ function printReport(){
 
     <h2>1. Fluid &amp; Process Input</h2>
     <table>
-      <tr><th>Fluid Phase</th><td>${phase}</td><th>Inlet Pressure</th><td>${pIn} bar(g)</td></tr>
+      <tr><th>Fluid Phase</th><td>${phase}</td><th>Inlet Pressure</th><td>${pInVal} ${pInUnitLabel} (= ${pInBargEq} bar(g))</td></tr>
       <tr><th>Temperature</th><td>${temp} °C</td><th>Density @ inlet</th><td>${rho} kg/m³</td></tr>
       <tr><th>Viscosity</th><td>${visc} cP</td><th>Mass Flow</th><td>${mflow} kg/hr</td></tr>
       <tr><th>Erosional Velocity Basis</th><td colspan="3">${cLabel}</td></tr>
