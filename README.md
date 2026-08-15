@@ -191,6 +191,8 @@
   <p>Chemical Engineer, IIT Guwahati</p>
   <p>Email: <a href="mailto:gajanandiitg@gmail.com">gajanandiitg@gmail.com</a> |
      Mobile: <a href="tel:+918369354472">+91-8369354472</a></p>
+  <p>For property calculation, Density,Cp, saturation condition visit below link</p>
+  <a href="https://gajuiitg.github.io/Thermocal/">Clickable Text Here</a>
 </footer>
 <footer>
   Built for internal engineering use — cross-check critical / API 570 / relief-line calculations against Aspen Hydraulics, HTRI, or Crane TP-410 hand calc before issuing for construction.
