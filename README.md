@@ -6,9 +6,7 @@
 <title>Hydraulic Line Sizing &amp; Pressure Drop Calculator</title>
 <style>
   :root{
-    --bg:#0c1116; --panel:#141b22; --panel2:#0f151b; --line:#26333d;
-    --txt:#dbe6ee; --dim:#7f93a3; --accent:#3ea6ff; --accent2:#ffb454;
-    --ok:#3fd67a; --warn:#ffb454; --bad:#ff5c5c; --mono:'Consolas','Cascadia Mono','Courier New',monospace;
+    --navy:#1b3a5c; --steel:#2f6690; --lt:#eef3f7; --line:#c8d6e0; --ok:#1e7d34; --warn:#b34700; --bad:#a4161a;
   }
   *{box-sizing:border-box;}
   body{margin:0;background:linear-gradient(180deg,#0a0e12,#0c1116 200px);color:var(--txt);
