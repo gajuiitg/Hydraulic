@@ -73,7 +73,10 @@
   .kpi.bad .val{color:var(--bad);} .kpi.warn .val{color:var(--warn);} .kpi.ok .val{color:var(--ok);}
   .note{font-size:11.5px;color:var(--dim);line-height:1.5;margin-top:10px;}
   .divider{height:1px;background:var(--line);margin:14px 0;}
-  .actions{display:flex;gap:10px;margin-top:6px;}
+  .actions{display:flex;gap:10px;margin-top:6px;flex-wrap:wrap;align-items:end;}
+  .print-options{display:flex;gap:8px;align-items:end;}
+  .print-options label{margin:0;font-size:11px;}
+  .print-options select{width:auto;min-width:105px;padding:7px 8px;}
   .empty{color:var(--dim);font-size:12.5px;text-align:center;padding:30px 0;}
   footer{max-width:1280px;margin:10px auto 0;padding:0 22px;color:var(--dim);font-size:11px;line-height:1.6;}
   a.link{color:var(--accent);text-decoration:none;}
@@ -81,7 +84,7 @@
 /* ---------- PRINT REPORT (A4) ---------- */
 #printReport{display:none;}
 @media print{
-  @page{ size:A4; margin:14mm 12mm; }
+  @page{ size:A4 portrait; margin:14mm 12mm; }
   body *{ visibility:hidden; }
   #printReport, #printReport *{ visibility:visible; }
   #printReport{
@@ -174,7 +177,23 @@
       <div class="actions">
         <button class="btn-accent" onclick="addSegment()">+ Add Pipe Segment</button>
         <button class="btn-ghost" onclick="calcAll()">▶ Calculate</button>
-        <button class="btn-ghost" onclick="printReport()">🖨 Print Report (A4)</button>
+        <div class="print-options">
+          <div>
+            <label for="printSize">Page size</label>
+            <select id="printSize">
+              <option value="A4">A4</option>
+              <option value="A3">A3</option>
+            </select>
+          </div>
+          <div>
+            <label for="printOrientation">Orientation</label>
+            <select id="printOrientation">
+              <option value="portrait">Vertical</option>
+              <option value="landscape">Horizontal</option>
+            </select>
+          </div>
+          <button class="btn-ghost" onclick="printReport()">🖨 Print Report</button>
+        </div>
       </div>
     </div>
 
@@ -200,8 +219,9 @@
 <footer class="no-print">
   <h3>Developer Information</h3>
   <p><strong>Gajanand Yadav</strong></p>
-  <p>Chemical Engineer, IIT Guwahati</p>
-  <p>Email: <a href="mailto:gajanandiitg@gmail.com">gajanandiitg@gmail.com</a> |
+  <p>Chemical Engineer</p>
+  <p>Email: <a href="mailto:gajanandiitg@gmail.com">gajanandiitg@gmail.com</a>
+  <p><a href="https://www.linkedin.com/in/gajanand-yadav-512624a5/" target="_blank">LinkedIn</a></p>
      Mobile: <a href="tel:+918369354472">+91-8369354472</a></p>
   <p>For property calculation, Density,Cp, saturation condition visit below link</p>
   <a href="https://gajuiitg.github.io/Thermocal/">Clickable Here</a>
@@ -606,6 +626,13 @@ function printReport(){
   calcAll(); // always recalculate on current inputs before printing
   if(!lastResults){ alert('Add at least one pipe segment and calculate first.'); return; }
 
+  const printSize=document.getElementById('printSize').value;
+  const printOrientation=document.getElementById('printOrientation').value;
+  const printStyle=document.createElement('style');
+  printStyle.id='dynamicPrintPageStyle';
+  printStyle.textContent=`@media print { @page { size: ${printSize} ${printOrientation}; } }`;
+  document.head.appendChild(printStyle);
+
   const phase=document.getElementById('phase').value==='gas' ? 'Gas / Vapour (compressible)' : 'Liquid (incompressible)';
   const pInVal=document.getElementById('pIn').value;
   const pInUnitSel=document.getElementById('pInUnit');
@@ -684,6 +711,7 @@ function printReport(){
     </div>
   `;
   document.getElementById('printReport').innerHTML = html;
+  window.addEventListener('afterprint',()=>printStyle.remove(),{once:true});
   window.print();
 }
 
