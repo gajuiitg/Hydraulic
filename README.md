@@ -110,7 +110,6 @@
 
 <header>
   <div>
-    <h1>Hydraulic Line Sizing <span>// dP · Velocity · Erosion</span></h1>
     <div class="sub">Multi-segment pipeline pressure drop calculator — Darcy-Weisbach + Crane TP-410 K-method</div>
   </div>
 </header>
